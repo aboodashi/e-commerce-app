@@ -1,6 +1,6 @@
 import 'package:flstn_store/features/auth/presentation/widgets/custom_app_bar.dart';
-import 'package:flstn_store/features/auth/presentation/widgets/custom_button.dart';
-import 'package:flstn_store/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:flstn_store/shared/widgets/custom_button.dart';
+import 'package:flstn_store/shared/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {

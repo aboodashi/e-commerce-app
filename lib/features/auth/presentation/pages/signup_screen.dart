@@ -1,8 +1,9 @@
 import 'package:flstn_store/features/auth/presentation/widgets/custom_app_bar.dart';
+import 'package:flstn_store/shared/widgets/custom_button.dart';
+import 'package:flstn_store/shared/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/custom_text_field.dart';
+import '../../../../core/app_routes.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -81,6 +82,31 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 48),
                     CustomButton(text: 'Sign Up', onPressed: () {}),
+                    const SizedBox(height: 16),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context, 
+                          AppRoutes.main, 
+                          (route) => false,
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 56),
+                        side: const BorderSide(color: AppColors.primary),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: const Text(
+                        'Continue without account',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +116,7 @@ class SignupScreen extends StatelessWidget {
                           style: TextStyle(color: AppColors.textSecondary),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.login),
                           child: const Text(
                             'Sign In',
                             style: TextStyle(

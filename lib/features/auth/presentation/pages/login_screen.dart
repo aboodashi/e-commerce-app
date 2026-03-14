@@ -1,16 +1,22 @@
 import 'package:flstn_store/features/auth/presentation/widgets/custom_app_bar.dart';
-import 'package:flstn_store/features/auth/presentation/widgets/custom_button.dart';
-import 'package:flstn_store/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:flstn_store/shared/widgets/custom_button.dart';
+import 'package:flstn_store/shared/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_colors.dart';
-import 'forget_password_screen.dart';
-import 'signup_screen.dart';
+import '../../../../core/app_routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // If the user returns to the login screen, we ensure onboarding will appear again next time.
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('onboardingSeen', false);
+      prefs.setBool('isLoggedIn', false);
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -48,12 +54,7 @@ class LoginScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ForgetPasswordScreen(),
-                          ),
-                        ),
+                        onPressed: () => Navigator.pushNamed(context, AppRoutes.forgetPassword),
                         child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
@@ -63,7 +64,20 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    CustomButton(text: 'Sign In', onPressed: () {}),
+                    CustomButton(
+                      text: 'Sign In',
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isLoggedIn', true);
+                        if (context.mounted) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            AppRoutes.main,
+                            (route) => false,
+                          );
+                        }
+                      },
+                    ),
                     const SizedBox(height: 24),
 
                     /// OR with lines
@@ -156,12 +170,7 @@ class LoginScreen extends StatelessWidget {
                           style: TextStyle(color: AppColors.textSecondary),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const SignupScreen(),
-                            ),
-                          ),
+                          onPressed: () => Navigator.pushNamed(context, AppRoutes.signup),
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(
