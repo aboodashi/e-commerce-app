@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flstn_store/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/app_theme.dart';
@@ -8,6 +10,11 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
   final bool onboardingSeen = prefs.getBool('onboardingSeen') ?? false;
+
+  await Firebase.initializeApp(
+    ////////////////////////////////////////////////////
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   String initialRoute = AppRoutes.login;
   if (isLoggedIn) {

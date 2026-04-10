@@ -1,3 +1,4 @@
+import 'package:flstn_store/core/app_routes.dart';
 import 'package:flstn_store/shared/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -70,7 +71,9 @@ class HomeScreen extends StatelessWidget {
           Card(
             margin: const EdgeInsets.all(8),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.cart);
+              },
               borderRadius: BorderRadius.circular(8),
               child: Container(
                 width: 44,
