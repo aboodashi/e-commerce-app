@@ -19,7 +19,7 @@ class CompleteOrderScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.success.withOpacity(0.1),
+                  color: AppColors.success.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -56,4 +56,3 @@ class CompleteOrderScreen extends StatelessWidget {
     );
   }
 }
-

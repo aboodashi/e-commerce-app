@@ -8,12 +8,10 @@ class AppTheme {
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
         secondary: AppColors.secondary,
-        background: AppColors.background,
         surface: AppColors.surface,
         error: AppColors.error,
         onPrimary: Colors.white,
         onSecondary: Colors.black,
-        onBackground: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
         onError: Colors.white,
       ),

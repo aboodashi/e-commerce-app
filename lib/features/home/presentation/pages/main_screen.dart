@@ -1,5 +1,7 @@
+import 'package:flstn_store/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flstn_store/features/cart/presentation/pages/cart_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/app_routes.dart';
@@ -29,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -89,6 +91,7 @@ class _DummyProfileScreen extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
             onPressed: () async {
+              context.read<AuthBloc>().add(LogoutEvent());
               final prefs = await SharedPreferences.getInstance();
               await prefs.setBool('isLoggedIn', false);
               // Requirement: If user logs out, onboarding appears again.

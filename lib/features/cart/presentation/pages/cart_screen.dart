@@ -51,6 +51,7 @@ class CartScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 5),
@@ -131,7 +132,7 @@ class CartScreen extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     offset: const Offset(0, -5),
                     blurRadius: 20,
                   ),
@@ -162,7 +163,8 @@ class CartScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     CustomButton(
                       text: 'Checkout',
-                      onPressed: () => Navigator.pushNamed(context, AppRoutes.checkout),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, AppRoutes.checkout),
                     ),
                   ],
                 ),
@@ -185,4 +187,3 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-

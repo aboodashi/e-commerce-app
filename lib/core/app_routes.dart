@@ -10,13 +10,17 @@ import '../features/cart/presentation/pages/cart_screen.dart';
 import '../features/checkout/presentation/pages/checkout_screen.dart';
 import '../features/tracking/presentation/pages/tracking_screen.dart';
 import '../features/tracking/presentation/pages/complete_order_screen.dart';
+import '../features/auth/presentation/pages/auth_wrapper.dart';
+import '../features/auth/presentation/pages/email_verification_screen.dart';
 
 class AppRoutes {
   // static const String splash = '/';
+  static const String authWrapper = '/auth-wrapper';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String signup = '/signup';
   static const String forgetPassword = '/forget-password';
+  static const String emailVerification = '/email-verification';
   static const String main = '/main';
   static const String productDetails = '/product-details';
   static const String cart = '/cart';
@@ -28,6 +32,8 @@ class AppRoutes {
     switch (settings.name) {
       // case splash:
       //   return _fadeRoute(const SplashScreen(), settings);
+      case authWrapper:
+        return _fadeRoute(const AuthWrapper(), settings);
       case onboarding:
         return _fadeRoute(const OnboardingScreen(), settings);
       case login:
@@ -36,6 +42,8 @@ class AppRoutes {
         return _slideRoute(const SignupScreen(), settings);
       case forgetPassword:
         return _slideRoute(const ForgetPasswordScreen(), settings);
+      case emailVerification:
+        return _fadeRoute(const EmailVerificationScreen(), settings);
       case main:
         return _fadeRoute(const MainScreen(), settings);
       case productDetails:
@@ -49,7 +57,7 @@ class AppRoutes {
             rating: args['rating'],
             reviewsCount: args['reviewsCount'],
             description: args['description'],
-          ), 
+          ),
           settings,
         );
       case cart:
@@ -72,8 +80,8 @@ class AppRoutes {
   static PageRouteBuilder _fadeRoute(Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       settings: settings,
-      pageBuilder: (_, __, ___) => page,
-      transitionsBuilder: (_, animation, __, child) {
+      pageBuilder: (_, _, _) => page,
+      transitionsBuilder: (_, animation, _, child) {
         return FadeTransition(opacity: animation, child: child);
       },
     );
@@ -83,8 +91,8 @@ class AppRoutes {
   static PageRouteBuilder _slideRoute(Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       settings: settings,
-      pageBuilder: (_, __, ___) => page,
-      transitionsBuilder: (_, animation, __, child) {
+      pageBuilder: (_, _, _) => page,
+      transitionsBuilder: (_, animation, _, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;
         const curve = Curves.easeInOutCubic;

@@ -57,7 +57,8 @@ class CheckoutScreen extends StatelessWidget {
 
               CustomButton(
                 text: 'Confirm Order',
-                onPressed: () => Navigator.pushNamed(context, AppRoutes.tracking),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AppRoutes.tracking),
               ),
             ],
           ),
@@ -71,7 +72,7 @@ class CheckoutScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isSelected
-            ? AppColors.primary.withOpacity(0.05)
+            ? AppColors.primary.withValues(alpha: 0.05)
             : AppColors.surface,
         border: Border.all(
           color: isSelected ? AppColors.primary : AppColors.border,

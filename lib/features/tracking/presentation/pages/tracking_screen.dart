@@ -60,7 +60,10 @@ class TrackingScreen extends StatelessWidget {
               const Spacer(),
               CustomButton(
                 text: 'Receive Order (Simulation)',
-                onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.completeOrder),
+                onPressed: () => Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.completeOrder,
+                ),
               ),
               const SizedBox(height: 16),
               CustomButton(
@@ -95,7 +98,7 @@ class TrackingScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 24),
@@ -174,4 +177,3 @@ class TrackingScreen extends StatelessWidget {
     );
   }
 }
-

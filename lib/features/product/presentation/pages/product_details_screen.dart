@@ -124,7 +124,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     offset: const Offset(0, -5),
                     blurRadius: 20,
                   ),
@@ -176,7 +176,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           Icons.shopping_bag_outlined,
                           color: Colors.white,
                         ),
-                        onPressed: () => Navigator.pushNamed(context, AppRoutes.cart),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.cart),
                       ),
                     ),
                   ],
@@ -189,4 +190,3 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 }
-

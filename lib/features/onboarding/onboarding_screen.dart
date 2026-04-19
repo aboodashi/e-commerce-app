@@ -51,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setBool('onboardingSeen', true);
                   if (context.mounted) {
-                    Navigator.pushReplacementNamed(context, AppRoutes.login);
+                    Navigator.pushReplacementNamed(context, AppRoutes.authWrapper);
                   }
                 },
                 child: const Text(
@@ -133,7 +133,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         if (context.mounted) {
                           Navigator.pushReplacementNamed(
                             context,
-                            AppRoutes.login,
+                            AppRoutes.authWrapper,
                           );
                         }
                       } else {
