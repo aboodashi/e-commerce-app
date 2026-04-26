@@ -62,13 +62,16 @@ class ProductCard extends StatelessWidget {
                 ),
                 child: Hero(
                   tag: 'product_$id',
-                  child: Image.network(
-                    imageUrl,
-                    width: double.infinity,
-                    fit: Theme.of(context).platform == TargetPlatform.iOS
-                        ? BoxFit.cover
-                        : BoxFit.cover,
-                  ),
+                  child: imageUrl.isEmpty
+                      ? const Center(child: Icon(Icons.broken_image))
+                      : Image.network(
+                          imageUrl,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(child: Icon(Icons.broken_image));
+                          },
+                        ),
                 ),
               ),
             ),

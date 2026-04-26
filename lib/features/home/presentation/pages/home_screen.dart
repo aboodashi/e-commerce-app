@@ -8,8 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../shared/widgets/category_item.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final bloc = context.read<HomeBloc>();
+    if (bloc.state is HomeInitialState) {
+      bloc.add(HomeLoadEvent());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

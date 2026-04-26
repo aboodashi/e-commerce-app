@@ -4,11 +4,11 @@ class ProductModel {
   final String name;
   final String description;
   final double price;
-  final List<String> images;
+  final List<dynamic> images;
   final String categoryId;
   final int stock;
   final bool isActive;
-  final int createdAt;
+  final Timestamp createdAt;
 
   ProductModel({
     required this.name,

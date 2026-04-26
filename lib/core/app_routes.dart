@@ -1,10 +1,10 @@
+import 'package:flstn_store/features/home/presentation/pages/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/auth/presentation/pages/login_screen.dart';
 import '../features/auth/presentation/pages/signup_screen.dart';
 import '../features/auth/presentation/pages/forget_password_screen.dart';
-import '../features/home/presentation/pages/main_screen.dart';
 import '../features/product/presentation/pages/product_details_screen.dart';
 import '../features/cart/presentation/pages/cart_screen.dart';
 import '../features/checkout/presentation/pages/checkout_screen.dart';
@@ -45,7 +45,7 @@ class AppRoutes {
       case emailVerification:
         return _fadeRoute(const EmailVerificationScreen(), settings);
       case main:
-        return _fadeRoute(const MainScreen(), settings);
+        return _fadeRoute(const HomeScreen(), settings);
       case productDetails:
         final args = settings.arguments as Map<String, dynamic>;
         return _slideRoute(

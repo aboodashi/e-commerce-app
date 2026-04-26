@@ -13,15 +13,11 @@ class HomeRepository {
         .where('isActive', isEqualTo: true)
         .orderBy('order')
         .get();
-    print(
-      "222222222222222222222222222222222222222222222222${snapshot.docs.map((doc) => BannerModel.fromFirestore(doc)).toList()}",
-    );
     return snapshot.docs.map((doc) => BannerModel.fromFirestore(doc)).toList();
   }
 
   // Categories
   Future<List<CategoryModel>> getCategories() async {
-    await Future.delayed(const Duration(seconds: 2));
     final snapshot = await _db.collection('categories').orderBy('order').get();
     return snapshot.docs
         .map((doc) => CategoryModel.fromFirestore(doc))
@@ -35,7 +31,6 @@ class HomeRepository {
     bool? isPopular,
     int limit = 10,
   }) async {
-    await Future.delayed(const Duration(seconds: 2));
     Query query = _db
         .collection('products')
         .where('isActive', isEqualTo: true)

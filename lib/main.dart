@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flstn_store/features/auth/data/auth_repository.dart';
 import 'package:flstn_store/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flstn_store/features/home/data/home_repository.dart';
+import 'package:flstn_store/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flstn_store/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +33,9 @@ void main() async {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(authRepository: AuthRepository()),
+        ),
+        BlocProvider(
+          create: (context) => HomeBloc(homeRepository: HomeRepository()),
         ),
       ],
       child: MyApp(initialRoute: initialRoute),

@@ -26,12 +26,17 @@ class CategoryItem extends StatelessWidget {
                 ),
               ],
             ),
-            child: Image.network(
-              imageUrl,
-              width: 28,
-              height: 28,
-              fit: BoxFit.contain,
-            ),
+            child: imageUrl.isEmpty
+                ? const Icon(Icons.category, size: 28, color: Colors.grey)
+                : Image.network(
+                    imageUrl,
+                    width: 28,
+                    height: 28,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.broken_image, size: 28, color: Colors.grey);
+                    },
+                  ),
           ),
           const SizedBox(height: 8),
           Text(

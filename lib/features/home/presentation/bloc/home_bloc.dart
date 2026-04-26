@@ -1,3 +1,6 @@
+import 'package:flstn_store/features/home/data/models/banner_model.dart';
+import 'package:flstn_store/features/home/data/models/category_model.dart';
+import 'package:flstn_store/features/home/data/models/product_model.dart';
 import 'package:flstn_store/features/home/presentation/bloc/home_event.dart';
 import 'package:flstn_store/features/home/presentation/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,33 +24,37 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     print(
       "==========================================================================================Loading State EMITTED",
     );
+    List<BannerModel> banners = [];
+    List<CategoryModel> categories = [];
+    List<ProductModel> products = [];
     try {
       print("➡️ before banners");
-      final banners = await homeRepository.getBanners();
+      banners = await homeRepository.getBanners();
       print("✔ banners done");
-
-      print("➡️ before categories");
-      final categories = await homeRepository.getCategories();
-      print("✔ categories done");
-
-      print("➡️ before products");
-      final products = await homeRepository.getProducts();
-      print("✔ products done");
-      emit(
-        HomeLoadedState(
-          banners: banners,
-          categories: categories,
-          products: products,
-        ),
-      );
-      print(
-        "==========================================================================================Loaded State EMITTED",
-      );
     } catch (e) {
-      emit(HomeErrorState(error: e.toString()));
-      print(
-        "==========================================================================================Error State EMITTED",
-      );
+      print("Error banners: $e");
     }
+    try {
+      print("➡️ before categories");
+      categories = await homeRepository.getCategories();
+      print("✔ categories done");
+    } catch (e) {
+      print("Error categories: $e");
+    }
+    try {
+      print("➡️ before products");
+      products = await homeRepository.getProducts();
+      print("✔ products done");
+    } catch (e) {
+      print("Error products: $e");
+    }
+
+    emit(
+      HomeLoadedState(
+        banners: banners,
+        categories: categories,
+        products: products,
+      ),
+    );
   }
 }

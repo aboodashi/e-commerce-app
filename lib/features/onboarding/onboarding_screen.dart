@@ -17,24 +17,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Map<String, String>> _onboardingData = [
     {
-      'title': 'Discover Great Products',
+      'title': 'Discover the Authentic Spirit of Palestine',
       'description':
-          'Find the best collection of latest products carefully chosen for you.',
-      'image':
-          'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=1000&auto=format&fit=crop',
+          'Shop genuine Palestinian products — from traditional clothing to delicious foods and handcrafted accessories',
+      'image': 'assets/images/on1.jpg',
     },
     {
-      'title': 'Easy & Safe Payment',
+      'title': 'Everything in One Place',
       'description':
-          'Multiple payment methods with high security standard for your peace of mind.',
-      'image':
-          'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1000&auto=format&fit=crop',
+          'Authentic Palestinian clothing, accessories, and foods — delivered right to your door, wherever you are',
+      'image': 'assets/images/on2.jpg',
     },
     {
-      'title': 'Fast Delivery',
-      'description': 'Fast and reliable delivery directly to your home.',
-      'image':
-          'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?q=80&w=1000&auto=format&fit=crop',
+      'title': 'Support and Shop with Pride',
+      'description':
+          'Every purchase is real support for Palestinian artisans. Join us and start your journey today',
+      'image': 'assets/images/on3.jpg',
     },
   ];
 
@@ -51,7 +49,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setBool('onboardingSeen', true);
                   if (context.mounted) {
-                    Navigator.pushReplacementNamed(context, AppRoutes.authWrapper);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.authWrapper,
+                    );
                   }
                 },
                 child: const Text(
@@ -76,7 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Image.network(
+                          child: Image.asset(
                             _onboardingData[index]['image']!,
                             fit: BoxFit.contain,
                           ),
