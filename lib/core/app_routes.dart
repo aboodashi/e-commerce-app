@@ -1,4 +1,6 @@
 import 'package:flstn_store/features/home/presentation/pages/home_screen.dart';
+import 'package:flstn_store/features/home/presentation/pages/notifications_screen.dart';
+import 'package:flstn_store/features/home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../features/onboarding/onboarding_screen.dart';
@@ -12,6 +14,7 @@ import '../features/tracking/presentation/pages/tracking_screen.dart';
 import '../features/tracking/presentation/pages/complete_order_screen.dart';
 import '../features/auth/presentation/pages/auth_wrapper.dart';
 import '../features/auth/presentation/pages/email_verification_screen.dart';
+import '../features/home/presentation/pages/account_screen.dart';
 
 class AppRoutes {
   // static const String splash = '/';
@@ -27,6 +30,9 @@ class AppRoutes {
   static const String checkout = '/checkout';
   static const String tracking = '/tracking';
   static const String completeOrder = '/complete-order';
+  static const String accountScreen = '/account-screen';
+  static const String notificationsScreen = '/notifications-screen';
+  static const String search = '/search';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -46,6 +52,12 @@ class AppRoutes {
         return _fadeRoute(const EmailVerificationScreen(), settings);
       case main:
         return _fadeRoute(const HomeScreen(), settings);
+      case accountScreen:
+        return _slideRoute(const AccountScreen(), settings);
+      case notificationsScreen:
+        return _slideRoute(const NotificationsScreen(), settings);
+      case search:
+        return _slideRoute(const SearchScreen(), settings);
       case productDetails:
         final args = settings.arguments as Map<String, dynamic>;
         return _slideRoute(

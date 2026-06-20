@@ -25,6 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _showComingSoon(BuildContext context) {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        const SnackBar(
+          content: Text('This feature is under development'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -70,17 +81,35 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.only(left: 16.0),
         child: Center(
           /////////////////////////////////////////////////////AVATAR////////////////////////////////////////////
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: theme.colorScheme.primary,
-            child: Text(
-              StringUtils.getInitials(state.userName),
-              style: TextStyle(
-                color: theme.colorScheme.onPrimary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          child: state is HomeLoadingState
+              ? SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(),
+                )
+              : state is HomeLoadedState
+              ? InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.accountScreen);
+                  },
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: theme.colorScheme.primary,
+                    backgroundImage: state.userImage.isNotEmpty
+                        ? NetworkImage(state.userImage)
+                        : null,
+                    child: state.userImage.isEmpty
+                        ? Text(
+                            StringUtils.getInitials(state.userName),
+                            style: TextStyle(
+                              color: theme.colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : null,
+                  ),
+                )
+              : null,
         ),
       ),
       title: Column(
@@ -95,7 +124,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Text(
             /////////////////////////////////////////////////////NAME////////////////////////////////////////////
-            state.userName.isNotEmpty ? state.userName : 'User',
+            state is HomeLoadingState
+                ? "..."
+                : state is HomeLoadedState
+                ? state.userName.isNotEmpty
+                      ? state.userName
+                      : 'User'
+                : 'User',
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -120,7 +155,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.notifications_none,
                   color: theme.iconTheme.color,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(
+                    context,
+                  ).pushNamed(AppRoutes.notificationsScreen);
+                },
               ),
             ),
           ),
@@ -144,30 +183,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Navigate to search or emit event to search
               },
               borderRadius: BorderRadius.circular(12),
-              child: Container(
-                /////////////////////////////////////////////////////SEARCH BAR////////////////////////////////////////////
-                height: 48,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: theme.hoverColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      color: theme.iconTheme.color?.withValues(alpha: 0.5),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Search',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.textTheme.bodyLarge?.color?.withValues(
-                          alpha: 0.5,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(AppRoutes.search);
+                },
+                child: Container(
+                  /////////////////////////////////////////////////////SEARCH BAR////////////////////////////////////////////
+                  height: 48,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: theme.hoverColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        color: theme.iconTheme.color?.withValues(alpha: 0.5),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Search',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.textTheme.bodyLarge?.color?.withValues(
+                            alpha: 0.5,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -241,6 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     }
+    /////////////////////////////////////////////////////LOADED BANNER////////////////////////////////////////////
 
     final imageUrl = state.bannerImageUrl;
     if (imageUrl == null || imageUrl.isEmpty) {
@@ -264,30 +309,36 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
+              ), // was all(16)
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween, // replaces Spacer()
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: const Text(
-                      "Today's Deal",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+                  InkWell(
+                    onTap: () => _showComingSoon(context),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text(
+                        "Today's Deal",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
                   const Text(
                     "Special Offer",
                     style: TextStyle(
@@ -296,7 +347,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Spacer(),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -306,12 +356,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Text(
-                      "Shop Now →",
-                      style: TextStyle(
-                        color: theme.colorScheme.primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () => _showComingSoon(context),
+                      child: const Text(
+                        "Shop Now →",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -366,9 +424,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showComingSoon(context);
+                },
                 child: Text(
-                  'See All',
+                  'Show All',
                   style: TextStyle(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -421,6 +481,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 return CategoryItem(
                   name: category.name,
                   imageUrl: category.imageUrl,
+                  onTap: () {
+                    _showComingSoon(context);
+                  },
                 );
               },
             ),
@@ -450,9 +513,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showComingSoon(context);
+                },
                 child: Text(
-                  'See All',
+                  'Show All',
                   style: TextStyle(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,

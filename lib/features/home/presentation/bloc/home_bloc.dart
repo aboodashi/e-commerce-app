@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flstn_store/features/home/data/models/banner_model.dart';
 import 'package:flstn_store/features/home/data/models/category_model.dart';
 import 'package:flstn_store/features/home/data/models/product_model.dart';
@@ -10,9 +11,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository homeRepository;
   HomeBloc({required this.homeRepository}) : super(HomeInitialState()) {
     on<HomeLoadEvent>((event, emit) {
-      print(
-        '==========================================================================================HomeLoadEvent==========================================',
-      );
       return _onHomeLoadEvent(event, emit);
     });
   }
@@ -21,36 +19,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(HomeLoadingState());
-    print(
-      "==========================================================================================Loading State EMITTED",
-    );
     List<BannerModel> banners = [];
     List<CategoryModel> categories = [];
     List<ProductModel> products = [];
+    final user = FirebaseAuth.instance.currentUser;
+    final fullName = user?.displayName ?? user?.email ?? 'User';
+    final userName = fullName.split(' ').first;
+    final userImage = user?.photoURL ?? '';
     try {
-      print("➡️ before banners");
       banners = await homeRepository.getBanners();
-      print("✔ banners done");
-    } catch (e) {
-      print("Error banners: $e");
-    }
-    try {
-      print("➡️ before categories");
       categories = await homeRepository.getCategories();
-      print("✔ categories done");
-    } catch (e) {
-      print("Error categories: $e");
-    }
-    try {
-      print("➡️ before products");
       products = await homeRepository.getProducts();
-      print("✔ products done");
     } catch (e) {
-      print("Error products: $e");
+      emit(HomeErrorState(error: e.toString()));
+      return;
     }
 
     emit(
       HomeLoadedState(
+        userImage: userImage,
+        userName: userName,
         banners: banners,
         categories: categories,
         products: products,

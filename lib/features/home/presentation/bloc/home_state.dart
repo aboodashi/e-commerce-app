@@ -35,11 +35,12 @@ class HomeLoadedState extends HomeState {
   @override
   final List<CategoryModel> categories;
   final List<ProductModel> products;
-
+  final String userImage;
   const HomeLoadedState({
     required this.banners,
     required this.categories,
     required this.products,
+    required this.userImage,
     super.userName,
     super.hasUnreadNotifications,
     super.cartItemCount,
