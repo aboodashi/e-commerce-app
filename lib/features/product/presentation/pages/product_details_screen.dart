@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
+import '../../../cart/data/models/cart_item_model.dart';
+import '../../../cart/presentation/bloc/cart_bloc.dart';
+import '../../../cart/presentation/bloc/cart_event.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
 import '../bloc/product_state.dart';
@@ -242,20 +245,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                             ),
                             const SizedBox(width: 24),
-                            Expanded(
-                              child: CustomButton(
-                                text: 'Add to Cart',
-                                icon: const Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  context.read<ProductBloc>().add(
-                                    ProductAddToCartEvent(),
-                                  );
-                                },
-                              ),
-                            ),
+                             Expanded(
+                               child: CustomButton(
+                                 text: 'Add to Cart',
+                                 icon: const Icon(
+                                   Icons.shopping_bag_outlined,
+                                   color: Colors.white,
+                                 ),
+                                 onPressed: () {
+                                   context.read<CartBloc>().add(
+                                     AddToCartEvent(
+                                       CartItemModel(
+                                         productId: product.id,
+                                         name: product.name,
+                                         price: product.price,
+                                         image: product.images.isNotEmpty
+                                             ? product.images.first
+                                             : '',
+                                         quantity: state.quantity,
+                                       ),
+                                     ),
+                                   );
+                                   context.read<ProductBloc>().add(
+                                     ProductAddToCartEvent(),
+                                   );
+                                 },
+                               ),
+                             ),
                           ],
                         ),
                       ),

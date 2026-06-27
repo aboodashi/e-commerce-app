@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flstn_store/features/auth/data/auth_repository.dart';
 import 'package:flstn_store/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flstn_store/features/cart/data/cart_repository.dart';
+import 'package:flstn_store/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:flstn_store/features/cart/presentation/bloc/cart_event.dart';
 import 'package:flstn_store/features/home/data/home_repository.dart';
 import 'package:flstn_store/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flstn_store/firebase_options.dart';
@@ -36,6 +39,10 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => HomeBloc(homeRepository: HomeRepository()),
+        ),
+        BlocProvider(
+          create: (context) => CartBloc(repository: CartRepository())
+            ..add(LoadCartEvent()),
         ),
       ],
       child: MyApp(initialRoute: initialRoute),
