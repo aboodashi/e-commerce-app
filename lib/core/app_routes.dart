@@ -1,23 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flstn_store/features/home/presentation/pages/home_screen.dart';
 import 'package:flstn_store/features/home/presentation/pages/notifications_screen.dart';
 import 'package:flstn_store/features/home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/onboarding/onboarding_screen.dart';
-import '../features/auth/presentation/pages/login_screen.dart';
-import '../features/auth/presentation/pages/signup_screen.dart';
-import '../features/auth/presentation/pages/forget_password_screen.dart';
-import '../features/product/presentation/pages/product_details_screen.dart';
-import '../features/cart/presentation/pages/cart_screen.dart';
-import '../features/checkout/presentation/pages/checkout_screen.dart';
-import '../features/tracking/presentation/pages/tracking_screen.dart';
-import '../features/tracking/presentation/pages/complete_order_screen.dart';
 import '../features/auth/presentation/pages/auth_wrapper.dart';
 import '../features/auth/presentation/pages/email_verification_screen.dart';
+import '../features/auth/presentation/pages/forget_password_screen.dart';
+import '../features/auth/presentation/pages/login_screen.dart';
+import '../features/auth/presentation/pages/signup_screen.dart';
+import '../features/cart/presentation/pages/cart_screen.dart';
+import '../features/checkout/presentation/pages/checkout_screen.dart';
 import '../features/home/presentation/pages/account_screen.dart';
+import '../features/onboarding/onboarding_screen.dart';
+import '../features/product/data/product_repository.dart';
+import '../features/product/presentation/bloc/product_bloc.dart';
+import '../features/product/presentation/pages/product_details_screen.dart';
+import '../features/tracking/presentation/pages/complete_order_screen.dart';
+import '../features/tracking/presentation/pages/tracking_screen.dart';
 
 class AppRoutes {
-  // static const String splash = '/';
   static const String authWrapper = '/auth-wrapper';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
@@ -36,8 +39,6 @@ class AppRoutes {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // case splash:
-      //   return _fadeRoute(const SplashScreen(), settings);
       case authWrapper:
         return _fadeRoute(const AuthWrapper(), settings);
       case onboarding:
@@ -59,16 +60,13 @@ class AppRoutes {
       case search:
         return _slideRoute(const SearchScreen(), settings);
       case productDetails:
-        final args = settings.arguments as Map<String, dynamic>;
+        final productId = settings.arguments as String;
         return _slideRoute(
-          ProductDetailsScreen(
-            id: args['id'],
-            title: args['title'],
-            imageUrl: args['imageUrl'],
-            price: args['price'],
-            rating: args['rating'],
-            reviewsCount: args['reviewsCount'],
-            description: args['description'],
+          BlocProvider(
+            create: (context) => ProductBloc(
+              repository: ProductRepository(FirebaseFirestore.instance),
+            ),
+            child: ProductDetailsScreen(productId: productId),
           ),
           settings,
         );
@@ -88,7 +86,6 @@ class AppRoutes {
     }
   }
 
-  // Fade Transition
   static PageRouteBuilder _fadeRoute(Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       settings: settings,
@@ -99,7 +96,6 @@ class AppRoutes {
     );
   }
 
-  // Slide Transition
   static PageRouteBuilder _slideRoute(Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       settings: settings,

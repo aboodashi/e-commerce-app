@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
+  final String id;
   final String name;
   final String description;
   final double price;
@@ -11,6 +12,7 @@ class ProductModel {
   final Timestamp createdAt;
 
   ProductModel({
+    required this.id,
     required this.name,
     required this.description,
     required this.price,
@@ -24,14 +26,15 @@ class ProductModel {
   factory ProductModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return ProductModel(
-      name: data['name'],
-      description: data['description'],
-      price: data['price'],
-      images: data['images'],
-      categoryId: data['categoryId'],
-      stock: data['stock'],
-      isActive: data['isActive'],
-      createdAt: data['createdAt'],
+      id: doc.id,
+      name: data['name'] ?? '',
+      description: data['description'] ?? '',
+      price: (data['price'] ?? 0).toDouble(),
+      images: data['images'] ?? [],
+      categoryId: data['categoryId'] ?? '',
+      stock: data['stock'] ?? 0,
+      isActive: data['isActive'] ?? false,
+      createdAt: data['createdAt'] ?? Timestamp.now(),
     );
   }
 }

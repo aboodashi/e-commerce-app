@@ -29,15 +29,7 @@ class ProductCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           AppRoutes.productDetails,
-          arguments: {
-            'id': id,
-            'title': title,
-            'imageUrl': imageUrl,
-            'price': price,
-            'rating': rating,
-            'reviewsCount': reviewsCount,
-            'description': description,
-          },
+          arguments: id,
         );
       },
       child: Container(

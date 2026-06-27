@@ -583,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SizedBox(
                     width: 160,
                     child: ProductCard(
-                      id: p.name,
+                      id: p.id,
                       title: p.name,
                       imageUrl: p.images.isNotEmpty ? p.images.first : '',
                       price: p.price,
